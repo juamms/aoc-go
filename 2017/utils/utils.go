@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bufio"
 	"bytes"
 	"flag"
 	"fmt"
@@ -70,17 +71,35 @@ func GetInputIntSlice(day int, sep string) ([]int, error) {
 		return nil, err
 	}
 
-	result := make([]int, 0)
-	arr := strings.Split(str, sep)
+	return ToIntSlice(strings.Split(str, sep)), nil
+}
 
-	for _, s := range arr {
+func ScanInputFile(day int, then func(string)) {
+	file, err := GetInputFile(day)
+	Handle(err)
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		then(scanner.Text())
+	}
+
+	err = scanner.Err()
+	Handle(err)
+}
+
+// ToIntSlice converts a string slice to an int slice, using 0 as default value.
+func ToIntSlice(slice []string) []int {
+	result := make([]int, 0)
+
+	for _, s := range slice {
 		result = append(result, u.StringToInt(s, 0))
 	}
 
-	return result, nil
+	return result
 }
 
 // CircularGetInt wraps the given `index` around, making `slice` a circular slice and returning the element in the `index` % len(`slice`) position
 func CircularGetInt(slice []int, index int) int {
-	return slice[index % len(slice)]
+	return slice[index%len(slice)]
 }

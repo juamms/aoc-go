@@ -2,8 +2,7 @@ package days
 
 import "github.com/juamms/aoc-go/2017/utils"
 
-type Day1 struct {
-}
+type Day1 struct{}
 
 // Faster solution
 func (day Day1) solveDirect(captcha []int) int {
@@ -43,7 +42,7 @@ func (day Day1) solveCircular(captcha []int) int {
 	}
 
 	return sum
-} 
+}
 
 func (day Day1) Part1() interface{} {
 	captcha, err := utils.GetInputIntSlice(1, "")
@@ -56,13 +55,13 @@ func (day Day1) Part2() interface{} {
 	captcha, err := utils.GetInputIntSlice(1, "")
 	utils.Handle(err)
 
-	anchor := len(captcha)/2
+	anchor := len(captcha) / 2
 	sum := 0
 	i := 0
 
 	for i < len(captcha) {
 		n := captcha[i]
-		m := utils.CircularGetInt(captcha, i + anchor)
+		m := utils.CircularGetInt(captcha, i+anchor)
 
 		if n == m {
 			sum += n
