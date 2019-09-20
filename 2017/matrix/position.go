@@ -2,10 +2,15 @@ package matrix
 
 // Directions
 var (
-	Up    = Position{-1, 0}
-	Down  = Position{1, 0}
-	Left  = Position{0, -1}
-	Right = Position{0, 1}
+	N                 = Position{-1, 0}
+	S                 = Position{1, 0}
+	W                 = Position{0, -1}
+	E                 = Position{0, 1}
+	NW                = Position{-1, -1}
+	NE                = Position{-1, 1}
+	SW                = Position{1, -1}
+	SE                = Position{1, 1}
+	AdjacentPositions = []Position{N, S, W, E, NW, NE, SW, SE}
 )
 
 // Position represents an (X,Y) location in a Matrix

@@ -34,7 +34,7 @@ func (matrix *Matrix) isPositionInRange(pos Position) bool {
 // Get returns the value for the given position
 func (matrix *Matrix) Get(pos Position) int {
 	if !matrix.isPositionInRange(pos) {
-		return -1
+		return 0
 	}
 
 	return matrix.data[(pos.X*matrix.Size)+pos.Y]
@@ -55,12 +55,25 @@ func (matrix *Matrix) Center() Position {
 	return Position{center, center}
 }
 
+// Max returns the largest value in the Matrix
+func (matrix *Matrix) Max() int {
+	max := 0
+
+	for _, v := range matrix.data {
+		if v > max {
+			max = v
+		}
+	}
+
+	return max
+}
+
 // Fill fills the Matrix using a Filler object, with the value given by `valueForPosition` until `maxValue` or greater is reached
-func (matrix *Matrix) Fill(filler Filler, maxValue int, valueForPosition func(Position) int) {
+func (matrix *Matrix) Fill(filler Filler, maxValue int, valueForPosition func(Position, *Matrix) int) {
 	pos := filler.Origin()
 
 	for i := 0; i < matrix.area; i++ {
-		val := valueForPosition(pos)
+		val := valueForPosition(pos, matrix)
 		matrix.Set(pos, val)
 
 		if val >= maxValue {
@@ -103,6 +116,18 @@ func (matrix *Matrix) PositionOf(n int) Position {
 	x := int(i / matrix.Size)
 
 	return Position{x, y}
+}
+
+// AdjacentSum returns the um of all values adjacent to `pos`
+func (matrix *Matrix) AdjacentSum(pos Position) int {
+	sum := 0
+
+	for _, p := range AdjacentPositions {
+		adj := pos.Adding(p)
+		sum += matrix.Get(adj)
+	}
+
+	return sum
 }
 
 func (matrix *Matrix) String() string {

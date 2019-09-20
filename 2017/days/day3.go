@@ -11,10 +11,19 @@ type Day3 struct{}
 
 var i = 1
 
-func incrementalFiller(pos matrix.Position) int {
+func incrementalFiller(_ matrix.Position, _ *matrix.Matrix) int {
 	val := i
 	i++
 	return val
+}
+
+func adjacentSumFiller(pos matrix.Position, matrix *matrix.Matrix) int {
+	curr := matrix.Get(pos)
+	if curr != 0 {
+		return curr
+	}
+
+	return matrix.AdjacentSum(pos)
 }
 
 func (day Day3) Part1() interface{} {
@@ -35,5 +44,16 @@ func (day Day3) Part1() interface{} {
 }
 
 func (day Day3) Part2() interface{} {
-	return 0
+	data, err := utils.GetInputString(3)
+	utils.Handle(err)
+	n := u.StringToInt(data, 0)
+	// n := 100
+
+	size := int(n / 10)
+	m := matrix.NewMatrix(size)
+	m.Set(m.Center(), 1)
+	filler := matrix.NewSpiralFiller(m, false)
+	m.Fill(filler, n, adjacentSumFiller)
+
+	return m.Max()
 }

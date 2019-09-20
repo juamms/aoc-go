@@ -24,9 +24,9 @@ func NewSpiralFiller(matrix *Matrix, clockwise bool) *SpiralFiller {
 	filler.current = filler.Origin()
 
 	if clockwise {
-		filler.previousDirection = Up
+		filler.previousDirection = N
 	} else {
-		filler.previousDirection = Down
+		filler.previousDirection = S
 	}
 
 	return filler
@@ -40,25 +40,25 @@ func (filler SpiralFiller) Origin() Position {
 func (filler *SpiralFiller) nextDirection() Position {
 	if filler.clockwise {
 		switch filler.previousDirection {
-		case Up:
-			return Right
-		case Right:
-			return Down
-		case Down:
-			return Left
+		case N:
+			return E
+		case E:
+			return S
+		case S:
+			return W
 		default:
-			return Up
+			return N
 		}
 	} else {
 		switch filler.previousDirection {
-		case Up:
-			return Left
-		case Left:
-			return Down
-		case Down:
-			return Right
+		case N:
+			return W
+		case W:
+			return S
+		case S:
+			return E
 		default:
-			return Up
+			return N
 		}
 	}
 }
