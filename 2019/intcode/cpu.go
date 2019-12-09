@@ -40,6 +40,8 @@ func (cpu *CPU) Step() {
 	default:
 		panic(fmt.Sprintf("Unsuported opcode: %d", *op))
 	}
+
+	cpu.ip++
 }
 
 // Run performs all instrunctions until the CPU is halted
@@ -65,6 +67,7 @@ func (cpu *CPU) getParameters(amount int) []int {
 
 	for idx := 1; idx <= amount; idx++ {
 		params = append(params, cpu.memory[ip+idx])
+		cpu.ip++
 	}
 
 	return params
@@ -75,7 +78,6 @@ func (cpu *CPU) add() {
 	lv, rv, out := params[0], params[1], params[2]
 
 	cpu.memory[out] = cpu.memory[lv] + cpu.memory[rv]
-	cpu.ip += 4
 }
 
 func (cpu *CPU) mul() {
@@ -83,5 +85,4 @@ func (cpu *CPU) mul() {
 	lv, rv, out := params[0], params[1], params[2]
 
 	cpu.memory[out] = cpu.memory[lv] * cpu.memory[rv]
-	cpu.ip += 4
 }
