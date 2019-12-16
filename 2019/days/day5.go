@@ -19,5 +19,12 @@ func (day Day5) Part1() interface{} {
 }
 
 func (day Day5) Part2() interface{} {
-	return 0
+	program, err := utils.GetInputIntSlice(5, ",")
+	utils.Handle(err)
+
+	cpu := intcode.NewCPU(program)
+	cpu.Input = &[]int{5}
+	cpu.Run()
+
+	return cpu.Result()
 }
