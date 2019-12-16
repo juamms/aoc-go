@@ -49,6 +49,14 @@ func (cpu *CPU) Step() {
 		cpu.in()
 	case 4:
 		cpu.out()
+	case 5:
+		cpu.jt()
+	case 6:
+		cpu.jf()
+	case 7:
+		cpu.lt()
+	case 8:
+		cpu.eq()
 	default:
 		panic(fmt.Sprintf("Unsuported opcode: %d", cpu.ins.Opcode))
 	}
@@ -78,7 +86,7 @@ func (cpu *CPU) getParam() int {
 	return cpu.memory[cpu.ip]
 }
 
-func (cpu *CPU) getParameters(amount int) []int {
+func (cpu *CPU) getParams(amount int) []int {
 	ip := cpu.ip
 	params := make([]int, 0)
 
@@ -115,7 +123,7 @@ func (cpu *CPU) getValues(parameters []int) []int {
 }
 
 func (cpu *CPU) add() {
-	params := cpu.getParameters(3)
+	params := cpu.getParams(3)
 	values := cpu.getValues(params)
 	lv, rv := values[0], values[1]
 	out := params[2]
@@ -124,7 +132,7 @@ func (cpu *CPU) add() {
 }
 
 func (cpu *CPU) mul() {
-	params := cpu.getParameters(3)
+	params := cpu.getParams(3)
 	values := cpu.getValues(params)
 	lv, rv := values[0], values[1]
 	out := params[2]
@@ -154,4 +162,48 @@ func (cpu *CPU) in() {
 func (cpu *CPU) out() {
 	param := cpu.getParam()
 	fmt.Println(cpu.memory[param])
+}
+
+func (cpu *CPU) jt() {
+	params := cpu.getParams(2)
+	values := cpu.getValues(params)
+
+	if values[0] != 0 {
+		// We subtract 1 here cause the Step method automatically increments the ip by 1
+		cpu.ip = values[1] - 1
+	}
+}
+
+func (cpu *CPU) jf() {
+	params := cpu.getParams(2)
+	values := cpu.getValues(params)
+
+	if values[0] == 0 {
+		// We subtract 1 here cause the Step method automatically increments the ip by 1
+		cpu.ip = values[1] - 1
+	}
+}
+
+func (cpu *CPU) lt() {
+	params := cpu.getParams(3)
+	values := cpu.getValues(params)
+	out := params[2]
+
+	if values[0] < values[1] {
+		cpu.memory[out] = 1
+	} else {
+		cpu.memory[out] = 0
+	}
+}
+
+func (cpu *CPU) eq() {
+	params := cpu.getParams(3)
+	values := cpu.getValues(params)
+	out := params[2]
+
+	if values[0] == values[1] {
+		cpu.memory[out] = 1
+	} else {
+		cpu.memory[out] = 0
+	}
 }
