@@ -9,7 +9,7 @@ import (
 )
 
 var days = []utils.Day{
-	aoc.Day1{}, aoc.Day2{}, aoc.Day3{},
+	aoc.Day1{}, aoc.Day2{}, aoc.Day3{}, aoc.Day4{}, aoc.Day5{},
 }
 
 var day, part int
