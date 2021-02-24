@@ -1,12 +1,12 @@
 package days
 
 import (
-	"fmt"
+	"math"
+	"strings"
+
 	"github.com/juamms/aoc-go/2019/matrix"
 	"github.com/juamms/aoc-go/2019/utils"
 	u "github.com/juamms/go-utils"
-	"math"
-	"strings"
 )
 
 type Day3 struct{}
@@ -124,8 +124,6 @@ func (day Day3) Part2() interface{} {
 			totalSteps = steps
 		}
 	}
-
-	fmt.Println(mx.String())
 
 	return totalSteps
 }
