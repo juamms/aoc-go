@@ -125,5 +125,6 @@ func (day Day3) Part2() interface{} {
 		}
 	}
 
-	return totalSteps
+	return 0
+	// return totalSteps (this is not correct)
 }
