@@ -6,6 +6,7 @@ import "fmt"
 type CPU struct {
 	memory []int
 	Input  *[]int
+	Output *int
 	ins    *Instruction
 	ip     int
 }
@@ -18,6 +19,7 @@ func NewCPU(program []int) *CPU {
 	cpu := &CPU{
 		memory: program,
 		Input:  nil,
+		Output: nil,
 		ins:    ins,
 		ip:     0,
 	}
@@ -161,7 +163,13 @@ func (cpu *CPU) in() {
 
 func (cpu *CPU) out() {
 	param := cpu.getParam()
-	fmt.Println(cpu.memory[param])
+	output := cpu.memory[param]
+
+	if cpu.Output != nil {
+		*cpu.Output = output
+	} else {
+		fmt.Println(cpu.memory[param])
+	}
 }
 
 func (cpu *CPU) jt() {
