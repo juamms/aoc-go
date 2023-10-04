@@ -73,6 +73,19 @@ func (cpu *CPU) Run() {
 	}
 }
 
+// RunUntil performs all instructions until `opcode` is reached or the CPU is halted
+func (cpu *CPU) RunUntil(opcode int) {
+	for !cpu.IsHalted() {
+
+		ins := cpu.ins
+		cpu.Step()
+
+		if ins.Opcode == opcode {
+			break
+		}
+	}
+}
+
 // Dump prints a representation of the CPU's internal state
 func (cpu *CPU) Dump() {
 	fmt.Printf("%v\nInstruction [%d]: %d\n", cpu.memory, cpu.ip, cpu.ins)
